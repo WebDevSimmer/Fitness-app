@@ -1,0 +1,39 @@
+import React from 'react'
+import {Box, Stack, Typography} from '@mui/material';
+
+const HeroBanner = () => {
+  return (
+    <Box sx={{ mt: { lg: '212px', xs:"70px"},
+               mt: { sm: `50px`}
+}} position="relative" p="20px">
+        <Typography color="#FF2625"
+        fontWeight='600' fontSize="26px">
+            Excercise Life
+        </Typography>
+        <Typography>
+            Check out the most effective Excercises
+        </Typography>
+        <Button 
+        variant="contained" 
+        color="error" 
+        href="#excercises"
+        sx={{ backgroundColor: '#FF2625', padding: '10px' }}
+        >
+            Explore Excercise
+        </Button>
+        <Typography 
+        fontWeight="600"
+        color="#FF2625"
+        sx={{ opacity: 0.1,
+            display: { lg: 'block', xs: 'none' } 
+        }}
+        fontSize="200px"
+        >
+            Excercise
+        </Typography>
+        <img src={HeroBannerImage} alt="Banner" className="hero-banner-img" ></img>
+    </Box>
+  )
+}
+
+export default HeroBanner
