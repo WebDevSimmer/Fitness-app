@@ -1,12 +1,42 @@
-import React{ useEffect, useState } from 'react'
+import React from 'react'
+import { useEffect, useState } from 'React'
 import {Box,Button,Stack,TextField,Typography } from '@mui/material';
 import { handleBreakpoints } from '@mui/system';
+import { exerciseOptions, fetchData } from '..utils/fetchData';
 
-const SearchExercise = () => {
+
+
+
+
+const SearchExercises = () => {
     const [search,setSearch] = useState('')
+    const [ exercises, setExercises ] = useState([])
+    const [bodyParts, setBodyParts] = useState([])
+
+    useEffect(() => {
+        const fetchExerciseData = async () => {
+            const bodyPartsData = await fetchData   ('https://exercisesdb.p.rapidapi.com/exercises', exerciseOptions )
+
+            setBodyParts(['all', ...bodyPartsData]);
+        }
+
+        fetchExerciseData();
+    }, [])
+
+
+
     const handleSearch = async () => {
       if(search) {
-        const exercisesData = await fetchData();
+        const exercisesData = await fetchData('https://exercisesdb.p.rapidapi.com/exercises', exerciseOptions);
+
+         const searchExercises = exerciseData.filter((exercise) => exercise.name.toLowercase().includes(search)
+         || exercise.target.toLowercase().includes(search)
+         || exercise.equipment.toLowercase().includes(search)
+         || exercise.bodyPart.toLowercase().includes(search)
+         );
+        setSearch('');
+        setExercises(searchedExercise);
+
       }  
     }
 
@@ -19,7 +49,7 @@ const SearchExercise = () => {
    >
     <Typography
         fontWeight={700}
-        sx={{ fontSize: { lg:'44px' xs:'30px'}}}
+        sx={{ fontSize: { lg:'44px', xs:'30px'}}}
         md="50px" textAlign="center"
     >
         Must Do Exercises
@@ -51,6 +81,11 @@ const SearchExercise = () => {
         onClick={handleSearch} 
         >Search</Button>
 
+    </Box>
+    <Box
+    sx={{ position: 'relative',width: '100%',p: '20px'}}
+    >
+        <HorizontalScrollbar data={bodyParts}></HorizontalScrollbar>
     </Box>
    </Stack>
   )
